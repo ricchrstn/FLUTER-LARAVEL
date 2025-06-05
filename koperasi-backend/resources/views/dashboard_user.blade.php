@@ -8,64 +8,88 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --koperasi-green: #388e3c;
-            --koperasi-light-green: #4caf50;
+            --primary-color: #4e73df;
+            --secondary-color: #858796;
+            --success-color: #1cc88a;
+            --info-color: #36b9cc;
+            --warning-color: #f6c23e;
+            --danger-color: #e74a3b;
+        }
+        body {
+            background-color: #f8f9fc;
         }
         .sidebar {
-            background: var(--koperasi-green);
+            background: linear-gradient(180deg, var(--primary-color) 0%, #224abe 100%);
             min-height: 100vh;
             color: white;
         }
-        .sidebar .nav-link {
-            color: rgba(255,255,255,0.8);
-            padding: 0.8rem 1rem;
+        .nav-link {
+            color: rgba(255,255,255,.8);
+            padding: 1rem;
+            border-radius: 0.35rem;
             margin: 0.2rem 0;
-            border-radius: 0.5rem;
         }
-        .sidebar .nav-link:hover {
+        .nav-link:hover, .nav-link.active {
             color: white;
-            background: rgba(255,255,255,0.1);
-        }
-        .sidebar .nav-link.active {
-            background: white;
-            color: var(--koperasi-green);
-        }
-        .sidebar .nav-link i {
-            width: 1.5rem;
+            background: rgba(255,255,255,.1);
         }
         .card-stats {
             border: none;
-            border-radius: 1rem;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 0.5rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
             transition: transform 0.3s;
         }
         .card-stats:hover {
             transform: translateY(-5px);
         }
-        .card-stats .icon {
+        .icon {
             width: 3rem;
             height: 3rem;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
         }
         .bg-primary-light {
-            background: rgba(56, 142, 60, 0.1);
-            color: var(--koperasi-green);
+            background: rgba(78, 115, 223, 0.1);
+            color: #4e73df;
         }
         .bg-success-light {
-            background: rgba(76, 175, 80, 0.1);
-            color: #2e7d32;
+            background: rgba(28, 200, 138, 0.1);
+            color: #1cc88a;
         }
         .bg-warning-light {
-            background: rgba(255, 152, 0, 0.1);
-            color: #f57c00;
+            background: rgba(246, 194, 62, 0.1);
+            color: #f6c23e;
         }
         .bg-info-light {
-            background: rgba(3, 169, 244, 0.1);
-            color: #0288d1;
+            background: rgba(54, 185, 204, 0.1);
+            color: #36b9cc;
+        }
+        .btn-koperasi {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+        .btn-koperasi:hover {
+            background: #224abe;
+            color: white;
+            transform: translateY(-2px);
+        }
+        .btn-outline-koperasi {
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+        .btn-outline-koperasi:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -98,7 +122,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('feedback.index') }}" class="nav-link">
+                            <a href="{{ route('feedback.my') }}" class="nav-link">
                                 <i class="fas fa-comments"></i> Feedback
                             </a>
                         </li>
@@ -192,47 +216,8 @@
                     </div>
                 </div>
 
-                <!-- Recent Transactions -->
-                <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-header bg-transparent border-0">
-                        <h5 class="mb-0">Transaksi Terbaru</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Tanggal</th>
-                                        <th>Jenis</th>
-                                        <th>Jumlah</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($transaksiTerbaru ?? [] as $transaksi)
-                                    <tr>
-                                        <td>{{ $transaksi->created_at->format('d/m/Y') }}</td>
-                                        <td>{{ $transaksi->jenis }}</td>
-                                        <td>Rp {{ number_format($transaksi->jumlah, 0, ',', '.') }}</td>
-                                        <td>
-                                            <span class="badge bg-{{ $transaksi->status == 'selesai' ? 'success' : 'warning' }}">
-                                                {{ ucfirst($transaksi->status) }}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    @empty
-                                    <tr>
-                                        <td colspan="4" class="text-center">Tidak ada transaksi terbaru</td>
-                                    </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Quick Actions -->
-                <div class="row g-4">
+                <div class="row g-4 mb-4">
                     <div class="col-md-6">
                         <div class="card border-0 shadow-sm">
                             <div class="card-body">
@@ -261,6 +246,49 @@
                                     </a>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-transparent border-0">
+                        <h5 class="mb-0">Transaksi Terbaru</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <th>Jenis</th>
+                                        <th>Jumlah</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($transaksiTerbaru ?? [] as $transaksi)
+                                    <tr>
+                                        <td>{{ $transaksi->created_at->format('d/m/Y') }}</td>
+                                        <td>
+                                            <span class="badge bg-{{ $transaksi->jenis == 'simpanan' ? 'success' : 'warning' }}">
+                                                {{ ucfirst($transaksi->jenis) }}
+                                            </span>
+                                        </td>
+                                        <td>Rp {{ number_format($transaksi->jumlah, 0, ',', '.') }}</td>
+                                        <td>
+                                            <span class="badge bg-{{ $transaksi->status == 'selesai' ? 'success' : 'warning' }}">
+                                                {{ ucfirst($transaksi->status) }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center">Tidak ada transaksi terbaru</td>
+                                    </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

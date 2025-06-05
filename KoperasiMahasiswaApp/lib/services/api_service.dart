@@ -69,6 +69,17 @@ class ApiService {
     }
   }
 
+  Future<Response> getAnggotaDetail(String token, int id) async {
+    try {
+      return await _dio.get(
+        '$_baseUrl/anggota/$id',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<Response> createAnggota(
     String token,
     Map<String, dynamic> data,
@@ -77,6 +88,33 @@ class ApiService {
       return await _dio.post(
         '$_baseUrl/anggota',
         data: data,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> updateAnggota(
+    String token,
+    int id,
+    Map<String, dynamic> data,
+  ) async {
+    try {
+      return await _dio.put(
+        '$_baseUrl/anggota/$id',
+        data: data,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> deleteAnggota(String token, int id) async {
+    try {
+      return await _dio.delete(
+        '$_baseUrl/anggota/$id',
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
     } catch (e) {
@@ -96,6 +134,17 @@ class ApiService {
     }
   }
 
+  Future<Response> getSimpananDetail(String token, int id) async {
+    try {
+      return await _dio.get(
+        '$_baseUrl/simpanan/$id',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<Response> createSimpanan(
     String token,
     Map<String, dynamic> data,
@@ -104,6 +153,55 @@ class ApiService {
       return await _dio.post(
         '$_baseUrl/simpanan',
         data: data,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> updateSimpanan(
+    String token,
+    int id,
+    Map<String, dynamic> data,
+  ) async {
+    try {
+      return await _dio.put(
+        '$_baseUrl/simpanan/$id',
+        data: data,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> deleteSimpanan(String token, int id) async {
+    try {
+      return await _dio.delete(
+        '$_baseUrl/simpanan/$id',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> approveSimpanan(String token, int id) async {
+    try {
+      return await _dio.post(
+        '$_baseUrl/simpanan/$id/approve',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> rejectSimpanan(String token, int id) async {
+    try {
+      return await _dio.post(
+        '$_baseUrl/simpanan/$id/reject',
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
     } catch (e) {
